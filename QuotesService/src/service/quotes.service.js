@@ -9,13 +9,14 @@ async function getBooksWithExcerpts() {
   
     for (const isbn of isbnList) {
       const bookData = await getBookData(isbn);
-      if (bookData.excerpts) {
+      if (bookData.excerpts && bookData.cover) {
         const excerpts = bookData.excerpts.map(excerpt => excerpt.text);
         bookList.push({
           isbn: isbn,
           title: bookData.title,
           author: bookData.authors[0].name,
-          excerpts: excerpts
+          excerpts: excerpts,
+          cover: bookData.cover.large
         });
       }
     }
