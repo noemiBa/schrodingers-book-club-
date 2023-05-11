@@ -1,6 +1,6 @@
 const { getBooksWithExcerpts } = require('../service/quotes.service');
 
-async function getBooks(req, res) {
+async function getBooksWithQuotes(req, res) {
     try {
       const books = await getBooksWithExcerpts();
       res.json(books);
@@ -11,4 +11,4 @@ async function getBooks(req, res) {
 }
   
 
-module.exports = { getBooks };
+module.exports = { getBooksWithQuotes };
