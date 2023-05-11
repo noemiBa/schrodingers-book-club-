@@ -39,15 +39,7 @@
   </template>
   
   <script>
-  import {
-    BJumbotron,
-    BContainer,
-    BCard,
-    BRow,
-    BCol,
-    BCardText,
-    BButton
-  } from 'bootstrap-vue'
+  import { BJumbotron, BContainer, BCard, BRow, BCol, BCardText,BButton } from 'bootstrap-vue'
   
   export default {
     name: 'HomePage',
@@ -69,7 +61,6 @@
       min-height: 350px;
     }
   }
-
   .jumbotron {
     background-image: url('../assets/img/homepage-img.jpg');
     background-size: cover;
@@ -80,7 +71,6 @@
     align-items: center;
     position: relative;
   }
-  
   .jumbotron::before {
     content: "";
     position: absolute;
@@ -90,20 +80,17 @@
     right: 0;
     background-color: rgba(0, 0, 0, 0.6); 
   }
-  
   .jumbotron h1 {
     font-size: 5em;
     color: white;
     text-align: center;
     margin-top: 0; 
-  }
-  
+  } 
   .jumbotron p {
     font-size: 1.5em;
     color: white;
     text-align: center;
   }
-  
   .jumbotron .container {
     position: relative;
     z-index: 1;
@@ -112,7 +99,6 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-  }
-  
+  } 
   </style>
   
