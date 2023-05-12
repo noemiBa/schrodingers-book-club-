@@ -56,8 +56,7 @@
   } 
   .jumbotron-wrapper {
     position: relative;
-  }
-  
+  } 
   .jumbotron-overlay {
     position: absolute;
     top: 0;
@@ -67,7 +66,6 @@
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 0;
   }
-  
   .bg-dark {
     background-color: transparent !important;
   }
