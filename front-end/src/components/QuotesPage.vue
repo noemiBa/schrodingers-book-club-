@@ -1,6 +1,6 @@
 <template>
+    <PageWrapper title="Blind date with a book"> 
     <div>
-      <NavBar/>
       <b-card-group deck class="d-flex flex-row flex-wrap justify-content-center">
         <b-card v-for="(book, index) in displayedBooks" :key="index" class="quarter-width text-center">
           <template #header>
@@ -15,11 +15,12 @@
         </b-button>
       </div>
     </div>
+   </PageWrapper>
   </template>
   
   <script>
   import axios from 'axios';
-  import NavBar from './NavBar.vue'
+  import PageWrapper from './PageWrapper.vue'
   import { BCardGroup, BCard, BCardText, BButton, BImg } from 'bootstrap-vue';
   
   export default {
@@ -30,7 +31,7 @@
       BCardText,
       BButton,
       BImg,
-      NavBar
+      PageWrapper
     },
     data() {
       return {
