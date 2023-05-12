@@ -1,6 +1,5 @@
 <template>
-<div>
-<NavBar/>
+<PageWrapper title="Sign In/Sign Up"> 
 <div class="container">
     <b-form v-if="!loggedIn" @submit.prevent="signIn">
         <b-form-group id="username-group" label="Username:" label-for="username-input">
@@ -17,11 +16,11 @@
         <b-button @click="logOut" variant="primary">Log Out</b-button>
     </div>
 </div>
-</div>
+</PageWrapper>
 </template>
 
 <script>
-import NavBar from './NavBar.vue'
+import PageWrapper from './PageWrapper.vue'
 import {
     ref
 } from 'vue'
@@ -40,7 +39,7 @@ export default {
         BFormGroup,
         BFormInput,
         BButton,
-        NavBar
+        PageWrapper
     },
     setup() {
         const title = ref('Sign In')

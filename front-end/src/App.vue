@@ -1,12 +1,13 @@
 <template>
 <div id="app">
-    <NavBar/>
-    <HomePage/>
+    <PageWrapper>
+        <HomePage/>
+    </PageWrapper>
 </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue'
+import PageWrapper from './components/PageWrapper.vue'
 import HomePage from './components/HomePage.vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -14,7 +15,7 @@ export default {
     name: 'App',
     components: {
         HomePage,
-        NavBar
+        PageWrapper
     }
 }
 </script>
