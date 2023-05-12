@@ -1,6 +1,7 @@
 <template>
+<div>
+<NavBar/>
 <div class="container">
-    <h1>{{ title }}</h1>
     <b-form v-if="!loggedIn" @submit.prevent="signIn">
         <b-form-group id="username-group" label="Username:" label-for="username-input">
             <b-form-input id="username-input" v-model="username" required placeholder="Enter your username"></b-form-input>
@@ -16,9 +17,11 @@
         <b-button @click="logOut" variant="primary">Log Out</b-button>
     </div>
 </div>
+</div>
 </template>
 
 <script>
+import NavBar from './NavBar.vue'
 import {
     ref
 } from 'vue'
@@ -36,7 +39,8 @@ export default {
         BForm,
         BFormGroup,
         BFormInput,
-        BButton
+        BButton,
+        NavBar
     },
     setup() {
         const title = ref('Sign In')

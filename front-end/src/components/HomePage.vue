@@ -14,7 +14,7 @@
               <b-card-text>
                 Take our fun and interactive book quiz to discover your next read!
               </b-card-text>
-              <b-button variant="primary" to="/quiz">Start Quiz</b-button>
+              <b-button variant="dark" to="/quiz">Start Quiz</b-button>
             </b-card>
           </b-col>
           <b-col md="6" lg="4" class="my-3">
@@ -22,7 +22,7 @@
               <b-card-text>
                 Let us match you with a book based on your favorite quote!
               </b-card-text>
-              <b-button variant="primary" to="/blind-date">Find a Book</b-button>
+              <b-button variant="dark" to="/blind-date">Find a Book</b-button>
             </b-card>
           </b-col>
           <b-col md="6" lg="4" class="my-3">
@@ -30,7 +30,7 @@
               <b-card-text>
                 Sign in to see your personalized book recommendations.
               </b-card-text>
-              <b-button variant="primary" to="/signin">Sign In</b-button>
+              <b-button variant="dark" to="/signin">Sign In</b-button>
             </b-card>
           </b-col>
         </b-row>
