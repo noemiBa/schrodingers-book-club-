@@ -1,5 +1,5 @@
 <template>
-<PageWrapper title="Sign In/Sign Up"> 
+<PageWrapper title="Sign In/Sign UP"> 
 <div class="container">
     <b-form v-if="!loggedIn" @submit.prevent="signIn">
         <b-form-group id="username-group" label="Username:" label-for="username-input">
@@ -20,17 +20,10 @@
 </template>
 
 <script>
-import PageWrapper from './PageWrapper.vue'
-import {
-    ref
-} from 'vue'
-import {
-    BForm,
-    BFormGroup,
-    BFormInput,
-    BButton
-} from 'bootstrap-vue'
+import { ref } from 'vue'
+import { BForm, BFormGroup, BFormInput, BButton } from 'bootstrap-vue'
 import axios from 'axios'
+import PageWrapper from './PageWrapper.vue'
 
 export default {
     name: 'SignIn',
