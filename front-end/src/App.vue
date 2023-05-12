@@ -1,31 +1,28 @@
 <template>
 <div id="app">
-    <!-- <SignIn /> -->
+    <NavBar/>
     <HomePage/>
 </div>
 </template>
 
 <script>
-//import SignIn from './components/SignIn.vue'
+import NavBar from './components/NavBar.vue'
 import HomePage from './components/HomePage.vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
     name: 'App',
     components: {
-        // SignIn
-        HomePage
+        HomePage,
+        NavBar
     }
 }
 </script>
 
 <style>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: sans-serif, Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
 }
 </style>
