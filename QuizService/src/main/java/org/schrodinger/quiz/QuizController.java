@@ -45,26 +45,23 @@ public class QuizController {
                 .collect(Collectors.toList());
     }
 
-    private String generateQuizResult(List<Book> books) {
-        // implement quiz result generation logic based on the quiz score
-        // e.g. using conditional statements and string concatenation
-        StringBuilder html = new StringBuilder();
-        html.append("<table>");
-        html.append("<tr><th>ID</th><th>Name</th><th>Author</th><th>ISBN</th><th>Description</th><th>Quote</th><th>Genre</th><th>Tags</th></tr>");
+        private String generateQuizResult(List<Book> books) {
+        JSONArray rows = new JSONArray();
+
         for (Book book : books) {
-            html.append("<tr>");
-            html.append("<td>").append(book.getId()).append("</td>");
-            html.append("<td>").append(book.getName()).append("</td>");
-            html.append("<td>").append(book.getAuthor()).append("</td>");
-            html.append("<td>").append(book.getIsbn()).append("</td>");
-            html.append("<td>").append(book.getDescription()).append("</td>");
-            html.append("<td>").append(book.getQuote()).append("</td>");
-            html.append("<td>").append(book.getGenre()).append("</td>");
-            html.append("<td>").append(String.join(",", book.getTags())).append("</td>");
-            html.append("</tr>");
+            JSONObject row = new JSONObject();
+            row.put("title", book.getName());
+            row.put("author", book.getAuthor());
+            row.put("isbn", book.getIsbn());
+            row.put("description", book.getDescription());
+            row.put("genre", book.getGenre());
+            rows.put(row);
         }
-        html.append("</table>");
-        return html.toString();
+
+        JSONObject result = new JSONObject();
+        result.put("books", rows);
+
+        return result.toString();
     }
 
     private Map<Integer, String> getGenreMap() {
