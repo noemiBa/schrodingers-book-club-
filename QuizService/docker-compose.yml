@@ -1,0 +1,14 @@
+version: '3'
+services:
+  quiz-app:
+    build: .
+    ports:
+      - "3002:3002"
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
