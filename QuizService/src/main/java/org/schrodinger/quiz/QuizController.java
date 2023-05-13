@@ -70,7 +70,7 @@ public class QuizController {
 
         JSONObject result = new JSONObject();
         result.put("quizQuestions", quizQuestions);
-
+        System.out.println(result.toString());
         return ResponseEntity.ok(result.toString());
     }
 
