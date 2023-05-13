@@ -1,6 +1,6 @@
 <template>
     <PageWrapper title="Quiz">
-      <b-container class="d-flex justify-content-center">
+      <b-container v-if="!answerSubmitted" class="d-flex justify-content-center">
         <b-row>
           <b-col :col="8" class="mx-auto">
             <b-card class="text-center" v-for="(question, index) in quizQuestions" :key="index">
@@ -15,13 +15,28 @@
           </b-col>
         </b-row>
       </b-container>
+      <div v-else>
+        <h4 class="my-4 text-center">Recommended Books:</h4>
+        <b-card-group deck>
+            <b-row>
+                <b-col v-for="(book, index) in recommendedBooks" :key="index" :cols="3" >
+                <b-card class="text-center">
+                    <b-card-title>{{ book.title }}</b-card-title>
+                    <b-card-text>Author: {{ book.author }}</b-card-text>
+                    <b-card-text>Description: {{ book.description }}</b-card-text>
+                    <b-card-text>Genre: {{ book.genre }}</b-card-text>
+                </b-card>
+                </b-col>
+            </b-row>
+        </b-card-group>
+    </div>
     </PageWrapper>
   </template>
-
+  
   <script>
   import axios from 'axios';
   import PageWrapper from './PageWrapper.vue';
-  import { BContainer, BRow, BCol, BCard, BFormGroup, BFormRadio, BButton } from 'bootstrap-vue';
+  import { BContainer, BRow, BCol, BCard, BFormGroup, BFormRadio, BButton, BCardGroup, BCardTitle, BCardText } from 'bootstrap-vue';
   
   export default {
     name: 'QuizPage',
@@ -34,50 +49,84 @@
       BFormGroup,
       BFormRadio,
       BButton,
+      BCardGroup,
+      BCardTitle,
+      BCardText,
     },
     data() {
       return {
         answers: [],
-        //quizQuestions: [],
+        quizQuestions: [],
         recommendedBooks: [],
-        quizQuestions: [
-          {
-            title: 'Which of the four do you prefer?',
-            options: [
-              'Obvious hero and villain.',
-              'Smart hero and villain.',
-              'Ensemble heroes and villains.',
-              'No heroes, only villains.',
-            ],
-          },
-          {
-            title: 'What type of endings do you prefer?',
-            options: [
-              'Happy endings.',
-              'Sappy endings.',
-              'Cliffhangers.',
-              'No ending, just cut to the credits.',
-            ],
-          },
-          {
-            title: "For wherever you happen to live in the world, which best describes your area?",
-            options: [
-              "I'm from the north.",
-              "I'm from the east.",
-              "I'm from the west.",
-              "I'm from the south.",
-            ],
-          },
-          {
-            title: "What's your favourite category?",
-            options: [
-              'Drama',
-              'Not Drama',
-              'Dramedy',
-              'Fantasy',
-            ],
-          },
-        ],
+        answerSubmitted: false,
+        // quizQuestions: [
+        //   {
+        //     title: 'Which of the four do you prefer?',
+        //     options: [
+        //       'Obvious hero and villain.',
+        //       'Smart hero and villain.',
+        //       'Ensemble heroes and villains.',
+        //       'No heroes, only villains.',
+        //     ],
+        //   },
+        //   {
+        //     title: 'What type of endings do you prefer?',
+        //     options: [
+        //       'Happy endings.',
+        //       'Sappy endings.',
+        //       'Cliffhangers.',
+        //       'No ending, just cut to the credits.',
+        //     ],
+        //   },
+        //   {
+        //     title: "For wherever you happen to live in the world, which best describes your area?",
+        //     options: [
+        //       "I'm from the north.",
+        //       "I'm from the east.",
+        //       "I'm from the west.",
+        //       "I'm from the south.",
+        //     ],
+        //   },
+        //   {
+        //     title: "What's your favourite category?",
+        //     options: [
+        //       'Drama',
+        //       'Not Drama',
+        //       'Dramedy',
+        //       'Fantasy',
+        //     ],
+        //   },
+        // ],
+        // recommendedBooks: [
+        //    {
+        //         author: "Dan Brown",
+        //         isbn: "9780307474278",
+        //         genre: "Mystery",
+        //         description: "While in Paris on business.",
+        //         title: "The Da Vinci Code"
+        //     },
+        //     {
+        //         author: "Shel Silverstein",
+        //         isbn: "9780060256654",
+        //         genre: "Childrens Literature",
+        //         description: "A heart-warming story,",
+        //         title: "The Giving Tree"
+        //     },
+        //     {
+        //         author: "Dan Brown",
+        //         isbn: "9780307474278",
+        //         genre: "Mystery",
+        //         description: "While in Paris on business.",
+        //         title: "The Da Vinci Code"
+        //     },
+        //     {
+        //         author: "Shel Silverstein",
+        //         isbn: "9780060256654",
+        //         genre: "Childrens Literature",
+        //         description: "A heart-warming story,",
+        //         title: "The Giving Tree"
+        //     }
+        // ]
       };
     },
     methods: {
@@ -93,7 +142,7 @@
         try {
           const response = await axios.post('http://localhost:3002/quizAnswers', { answers: this.answers });
           this.recommendedBooks = response.data;
-          console.log(this.recommendedBooks);
+          this.answerSubmitted = true; 
         } catch (error) {
           console.error(error);
         }
@@ -104,6 +153,7 @@
     },
   };
   </script>
+  
   <style scoped>
   .b-form-group {
     text-align: center;
