@@ -17,6 +17,7 @@
       </b-container>
     </PageWrapper>
   </template>
+
   <script>
   import axios from 'axios';
   import PageWrapper from './PageWrapper.vue';
@@ -37,69 +38,69 @@
     data() {
       return {
         answers: [],
-        quizQuestions: [],
-        // quizQuestions: [
-        //   {
-        //     title: 'Which of the four do you prefer?',
-        //     options: [
-        //       'Obvious hero and villain.',
-        //       'Smart hero and villain.',
-        //       'Ensemble heroes and villains.',
-        //       'No heroes, only villains.',
-        //     ],
-        //   },
-        //   {
-        //     title: 'What type of endings do you prefer?',
-        //     options: [
-        //       'Happy endings.',
-        //       'Sappy endings.',
-        //       'Cliffhangers.',
-        //       'No ending, just cut to the credits.',
-        //     ],
-        //   },
-        //   {
-        //     title: "For wherever you happen to live in the world, which best describes your area?",
-        //     options: [
-        //       "I'm from the north.",
-        //       "I'm from the east.",
-        //       "I'm from the west.",
-        //       "I'm from the south.",
-        //     ],
-        //   },
-        //   {
-        //     title: "What's your favourite category?",
-        //     options: [
-        //       'Drama',
-        //       'Not Drama',
-        //       'Dramedy',
-        //       'Fantasy',
-        //     ],
-        //   },
-        // ],
+        //quizQuestions: [],
+        recommendedBooks: [],
+        quizQuestions: [
+          {
+            title: 'Which of the four do you prefer?',
+            options: [
+              'Obvious hero and villain.',
+              'Smart hero and villain.',
+              'Ensemble heroes and villains.',
+              'No heroes, only villains.',
+            ],
+          },
+          {
+            title: 'What type of endings do you prefer?',
+            options: [
+              'Happy endings.',
+              'Sappy endings.',
+              'Cliffhangers.',
+              'No ending, just cut to the credits.',
+            ],
+          },
+          {
+            title: "For wherever you happen to live in the world, which best describes your area?",
+            options: [
+              "I'm from the north.",
+              "I'm from the east.",
+              "I'm from the west.",
+              "I'm from the south.",
+            ],
+          },
+          {
+            title: "What's your favourite category?",
+            options: [
+              'Drama',
+              'Not Drama',
+              'Dramedy',
+              'Fantasy',
+            ],
+          },
+        ],
       };
     },
     methods: {
-      getQuizQuestions() {
-        axios.get('http://localhost:3002/quizQuestions')
-          .then(response => {
-            this.quizQuestions = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
+      async getQuizQuestions() {
+        try {
+          const response = await axios.get('http://localhost:3002/quizQuestions');
+          this.quizQuestions = response.data;
+        } catch (error) {
+          console.error(error);
+        }
       },
-      submitAnswers() {
-        axios.post('http://localhost:3002/quizAnswers', { answers: this.answers })
-          .then(() => {
-            console.log('Answers submitted successfully!');
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      async submitAnswers() {
+        try {
+          const response = await axios.post('http://localhost:3002/quizAnswers', { answers: this.answers });
+          this.recommendedBooks = response.data;
+          console.log(this.recommendedBooks);
+        } catch (error) {
+          console.error(error);
+        }
       },
     },
-    mounted() {
-      this.getQuizQuestions();
+    async mounted() {
+      await this.getQuizQuestions();
     },
   };
   </script>
