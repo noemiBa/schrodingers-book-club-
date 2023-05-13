@@ -12,7 +12,7 @@
 	<artifactId>quiz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>quiz</name>
-	<description>Quiz book recommendation service</description>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -52,6 +52,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
