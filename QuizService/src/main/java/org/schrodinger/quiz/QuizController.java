@@ -20,6 +20,61 @@ public class QuizController {
     @Autowired
     private BookRepository bookRepository;
 
+    @GetMapping("/quizQuestions")
+    public ResponseEntity<String> createQuizQuestions() {
+        JSONArray quizQuestions = new JSONArray();
+
+        // Question 1
+        JSONObject question1 = new JSONObject();
+        question1.put("title", "Which of the four do you prefer?");
+        JSONArray options1 = new JSONArray();
+        options1.put("Obvious hero and villain.");
+        options1.put("Smart hero and villain.");
+        options1.put("Ensemble heroes and villains.");
+        options1.put("No heroes, only villains.");
+        question1.put("options", options1);
+        quizQuestions.put(question1);
+
+        // Question 2
+        JSONObject question2 = new JSONObject();
+        question2.put("title", "What type of endings do you prefer?");
+        JSONArray options2 = new JSONArray();
+        options2.put("Happy endings.");
+        options2.put("Sappy endings.");
+        options2.put("Cliffhangers.");
+        options2.put("No ending, just cut to the credits.");
+        question2.put("options", options2);
+        quizQuestions.put(question2);
+
+        // Question 3
+        JSONObject question3 = new JSONObject();
+        question3.put("title", "For wherever you happen to live in the world, which best describes your area?");
+        JSONArray options3 = new JSONArray();
+        options3.put("I'm from the north.");
+        options3.put("I'm from the east.");
+        options3.put("I'm from the west.");
+        options3.put("I'm from the south.");
+        question3.put("options", options3);
+        quizQuestions.put(question3);
+
+        // Question 4
+        JSONObject question4 = new JSONObject();
+        question4.put("title", "What's your favourite category?");
+        JSONArray options4 = new JSONArray();
+        options4.put("Drama");
+        options4.put("Not Drama");
+        options4.put("Dramedy");
+        options4.put("Fantasy");
+        question4.put("options", options4);
+        quizQuestions.put(question4);
+
+        JSONObject result = new JSONObject();
+        result.put("quizQuestions", quizQuestions);
+
+        return ResponseEntity.ok(result.toString());
+    }
+
+
     @PostMapping("/quizAnswers")
     public ResponseEntity<String> processQuiz(@RequestBody QuizRequest quizRequest) {
         int[] answers = quizRequest.getAnswers();
