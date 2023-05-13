@@ -17,13 +17,15 @@ public class QuizController {
     @Autowired
     private BookRepository bookRepository;
 
-    @PostMapping("/quiz")
-    public ResponseEntity<String> processQuiz(@RequestBody int[] answers) {
-        // implement quiz logic to process the answers array
+    @PostMapping("/quizAnswers")
+    public ResponseEntity<String> processQuiz(@RequestBody QuizRequest quizRequest) {
+        int[] answers = quizRequest.getAnswers();
         List<Book> filteredBookList = calculateQuizScore(answers);
-        String bookListHTMLtable = generateQuizResult(filteredBookList);
-
-        // return the quiz result as a response to the HTTP request
+        String bookListHTMLtable = "no books found in list";
+        if(filteredBookList.isEmpty())
+            return ResponseEntity.badRequest().body(bookListHTMLtable);
+        else
+            bookListHTMLtable = generateQuizResult(filteredBookList);
         return ResponseEntity.ok(bookListHTMLtable);
     }
 
