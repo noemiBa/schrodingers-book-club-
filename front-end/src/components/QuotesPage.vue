@@ -9,7 +9,7 @@
           <b-card-text v-if="!book.showCover">{{ book.excerpts[0] }}</b-card-text>
           <b-card-text v-if="book.showCover">{{ book.title }} by {{ book.author }}</b-card-text>
           <div class="d-flex justify-content-center mt-2">
-            <b-button variant="outline-dark" @click="book.showCover = !book.showCover">
+            <b-button variant="outline-dark" @click="unveilMystery(book)">
               {{ book.showCover ? 'See Quote' : 'Unveil the mystery' }}
             </b-button>
           </div>
@@ -26,6 +26,7 @@
 import axios from 'axios';
 import PageWrapper from './PageWrapper.vue';
 import { BCardGroup, BCard, BCardText, BButton, BImg, BOverlay } from 'bootstrap-vue';
+import store from '@/store/index.js'
 
 export default {
   name: 'QuotesPage',
@@ -46,6 +47,12 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+        return store.state.loggedIn;
+    },
+    username() {
+        return store.state.inputUsername
+    },
     isReady() {
       return this.books.length > 0;
     }
@@ -64,6 +71,20 @@ export default {
     showMoreBooks() {
       this.displayedBooks.push(...this.books.slice(this.displayedBooks.length, this.displayedBooks.length + this.chunkSize));
     },
+    sendRecommendation(isbn) {
+        try {
+            const response = axios.post(`http://localhost:3000/${this.username}/recommendations`, { isbn });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async unveilMystery(book) {
+        if (this.isLoggedIn) {
+            await this.sendRecommendation(book.isbn);
+        }
+        book.showCover = !book.showCover;
+    }
   },
 };
 </script>
