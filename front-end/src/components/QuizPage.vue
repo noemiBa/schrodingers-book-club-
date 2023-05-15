@@ -37,7 +37,7 @@
 import axios from 'axios';
 import PageWrapper from './PageWrapper.vue';
 import { BContainer, BRow, BCol, BCard, BFormGroup, BFormRadio, BButton, BCardGroup, BCardTitle, BCardText } from 'bootstrap-vue';
-import store from '@/store/index.js'
+import store from '@/store/store.js'
 
 export default {
     name: 'QuizPage',

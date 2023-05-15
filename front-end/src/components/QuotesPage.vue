@@ -26,7 +26,7 @@
 import axios from 'axios';
 import PageWrapper from './PageWrapper.vue';
 import { BCardGroup, BCard, BCardText, BButton, BImg, BOverlay } from 'bootstrap-vue';
-import store from '@/store/index.js'
+import store from '@/store/store.js'
 
 export default {
   name: 'QuotesPage',

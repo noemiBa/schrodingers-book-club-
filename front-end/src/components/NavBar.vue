@@ -10,7 +10,7 @@
 
             <b-nav-item-dropdown text="User" right>
               <b-dropdown-item to="/signin">Sign In</b-dropdown-item>
-              <b-dropdown-item to="">My Reccomendations</b-dropdown-item>
+              <b-dropdown-item to="/recommendations">My Reccomendations</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-navbar>
