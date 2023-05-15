@@ -1,6 +1,6 @@
 const NodeCache = require('node-cache');
 const request = require('request-promise');
-const openLibraryURL = 'https://openlibrary.org/'
+const isbnList = require('./data/books');
 const cache = new NodeCache();
 
 async function getBooksWithExcerpts() {
@@ -25,7 +25,7 @@ async function getBooksWithExcerpts() {
   
 async function getBookData(isbn) {
     const cacheKey = `bookData:${isbn}`;
-    const bookApiUrl = `${openLibraryURL}api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`;
+    const bookApiUrl = `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`;
   
     return getCachedData(cacheKey, async () => {
       const bookResponse = await request({ uri: bookApiUrl, json: true });
@@ -35,12 +35,7 @@ async function getBookData(isbn) {
   
 async function getIsbnList() {
     const cacheKey = 'isbnList';
-    const apiUrl = `${openLibraryURL}/search.json?q=harry+potter&fields=isbn`;
-  
-    return getCachedData(cacheKey, async () => {
-      const response = await request({ uri: apiUrl, json: true });
-      return response.docs.flatMap(book => book.isbn).slice(0,50);
-    });
+    return getCachedData(cacheKey, async () => isbnList);
 }
 
 async function getCachedData(cacheKey, requestFn) {
