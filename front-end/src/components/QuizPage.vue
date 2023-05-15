@@ -33,12 +33,13 @@
     </PageWrapper>
   </template>
   
-  <script>
-  import axios from 'axios';
-  import PageWrapper from './PageWrapper.vue';
-  import { BContainer, BRow, BCol, BCard, BFormGroup, BFormRadio, BButton, BCardGroup, BCardTitle, BCardText } from 'bootstrap-vue';
-  
-  export default {
+<script>
+import axios from 'axios';
+import PageWrapper from './PageWrapper.vue';
+import { BContainer, BRow, BCol, BCard, BFormGroup, BFormRadio, BButton, BCardGroup, BCardTitle, BCardText } from 'bootstrap-vue';
+import store from '@/store/index.js'
+
+export default {
     name: 'QuizPage',
     components: {
       PageWrapper,
@@ -120,6 +121,13 @@
         //         title: "The Da Vinci Code"
         //     },
         //     {
+        //         author: "Dan Brown",
+        //         isbn: "9780307474278",
+        //         genre: "Mystery",
+        //         description: "While in Paris on business.",
+        //         title: "The Da Vinci Code"
+        //     },
+        //     {
         //         author: "Shel Silverstein",
         //         isbn: "9780060256654",
         //         genre: "Childrens Literature",
@@ -128,6 +136,21 @@
         //     }
         // ]
       };
+    },
+    computed: {
+      isLoggedIn() {
+        return store.state.loggedIn;
+      },
+      username() {
+        return store.state.inputUsername
+      }
+    },
+    watch: {
+      recommendedBooks(newBooks) {
+        if (this.isLoggedIn && newBooks.length > 0) {
+          this.sendRecommendations();
+        }
+      }
     },
     methods: {
       async getQuizQuestions() {
@@ -142,9 +165,18 @@
         try {
           const response = await axios.post('http://localhost:3002/quizAnswers', { answers: this.answers });
           this.recommendedBooks = response.data;
-          this.answerSubmitted = true; 
+          this.answerSubmitted = true;
         } catch (error) {
           console.error(error);
+        }
+      },
+      async sendRecommendations() {
+        const url = `http://localhost:3000/${this.username}/recommendations`;
+        const isbns = this.recommendedBooks.map(book => book.isbn);
+        try {
+            await axios.post(url, { isbns });
+        } catch (error) {
+            console.error(error);
         }
       },
     },
@@ -152,7 +184,8 @@
       await this.getQuizQuestions();
     },
   };
-  </script>
+</script>
+
   
   <style scoped>
   .b-form-group {
