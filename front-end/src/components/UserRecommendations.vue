@@ -1,0 +1,81 @@
+<template>
+    <PageWrapper :title="isLoggedIn ? `${username}'s Recommendations` : `User's Recommendations`">
+      <b-container v-if="isLoggedIn && hasReccomendations">
+        <b-card-group deck>
+          <b-card v-for="(book, index) in userRecommendations" :key="index" class="mb-3">
+            <b-card-title>{{ book.title }}</b-card-title>
+            <b-card-text>Author: {{ book.author }}</b-card-text>
+          </b-card>
+        </b-card-group>
+      </b-container>
+      <b-container v-if="isLoggedIn && !hasReccomendations">
+        <h4>You don't have any recommendations yet.</h4>
+      </b-container>
+      <b-container v-else>
+        <h4>You need to log in to see this page.</h4>
+      </b-container>
+    </PageWrapper>
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  import PageWrapper from './PageWrapper.vue';
+  import store from '@/store/store.js';
+  import { BContainer, BCard, BCardGroup, BCardTitle, BCardText } from 'bootstrap-vue';
+  
+  export default {
+    name: 'UserRecommendations',
+    components: {
+      PageWrapper,
+      BContainer,
+      BCard,
+      BCardGroup,
+      BCardTitle,
+      BCardText
+    },
+    data() {
+      return {
+        userRecommendations: [],
+        // userRecommendations: [
+        //    {
+        //         author: "Dan Brown",
+        //         isbn: "9780307474278",
+        //         genre: "Mystery",
+        //         description: "While in Paris on business.",
+        //         title: "The Da Vinci Code"
+        //     },
+        //     {
+        //         author: "Shel Silverstein",
+        //         isbn: "9780060256654",
+        //         genre: "Childrens Literature",
+        //         description: "A heart-warming story,",
+        //         title: "The Giving Tree"
+        //     }
+        // ]
+      };
+    },
+    computed: {
+      isLoggedIn() {
+        return store.state.loggedIn;
+      },
+      username() {
+        return store.state.inputUsername;
+      },
+      hasReccomendations() {
+        return this.userRecommendations.length > 0; 
+      }
+    },
+    async beforeMount() {
+      try {
+        const response = await axios.get(`http://localhost:3000/${this.username}/recommendations`);
+        this.userRecommendations = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  </style>
+  

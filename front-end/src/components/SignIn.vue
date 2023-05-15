@@ -24,7 +24,7 @@
   import { BForm, BFormGroup, BFormInput, BButton } from 'bootstrap-vue'
   import axios from 'axios'
   import PageWrapper from './PageWrapper.vue'
-  import store from '@/store/index.js'
+  import store from '@/store/store.js'
   
   export default {
     name: 'SignIn',
