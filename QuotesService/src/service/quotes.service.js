@@ -9,14 +9,14 @@ async function getBooksWithExcerpts() {
   
     for (const isbn of isbnList) {
       const bookData = await getBookData(isbn);
-      if (bookData.excerpts && bookData.cover) {
-        const excerpts = bookData.excerpts.map(excerpt => excerpt.text);
+      if (bookData.statusCode === 200) {
+        const excerpts = [bookData.data.book.excerpt];
         bookList.push({
           isbn: isbn,
-          title: bookData.title,
-          author: bookData.authors[0].name,
+          title: bookData.data.book.title,
+          author: bookData.data.book.author,
           excerpts: excerpts,
-          cover: bookData.cover.large
+          cover: bookData.data.book.cover
         });
       }
     }
@@ -25,13 +25,14 @@ async function getBooksWithExcerpts() {
   
 async function getBookData(isbn) {
     const cacheKey = `bookData:${isbn}`;
-    const bookApiUrl = `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=data&format=json`;
+    const bookApiUrl = `http://backend-service:3000/books/${isbn}`;
   
     return getCachedData(cacheKey, async () => {
       const bookResponse = await request({ uri: bookApiUrl, json: true });
-      return bookResponse[`ISBN:${isbn}`];
+      return bookResponse;
     });
 }
+  
   
 async function getIsbnList() {
     const cacheKey = 'isbnList';
