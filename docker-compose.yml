@@ -72,6 +72,8 @@ services:
     networks:
       - internalnet
     restart: always
+    depends_on:
+      - mysqldb
 
 
 networks:
