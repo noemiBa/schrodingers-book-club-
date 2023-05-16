@@ -63,6 +63,17 @@ services:
     networks:
       - internalnet
 
+  quiz-service:
+    build: QuizService
+    ports:
+      - "3002:3002"
+    expose:
+      - "3002"
+    networks:
+      - internalnet
+    restart: always
+
+
 networks:
   internalnet:
     driver: bridge
