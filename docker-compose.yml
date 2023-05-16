@@ -10,17 +10,25 @@ services:
     networks:
       - internalnet
     restart: always
+    depends_on:
+      - mysqldb
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
 
   front-end:
     build: front-end
     ports:
       - "8080:8080"
     environment:
-      QUOTES_SERVICE_URL: "http://quotes-service:3001"
+      - "QUOTES_SERVICE_URL=http://quotes-service:3001"
+      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/"
     networks:
       - internalnet
     depends_on:
       - quotes-service
+      - eureka-server
 
   mysqldb:
     image: mysql:8.0
@@ -58,10 +66,13 @@ services:
       DB_PASSWORD: 'letmein'
       DB_NAME: bookclubdb
       DB_CONNECTION_LIMIT: 20
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
     depends_on:
       - mysqldb
+      - eureka-server
     networks:
       - internalnet
+    
 
   quiz-service:
     build: QuizService
@@ -74,8 +85,21 @@ services:
     restart: always
     depends_on:
       - mysqldb
-
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+   
+  eureka-server:
+    image: springcloud/eureka
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+    networks:
+      - internalnet
+    restart: always
 
 networks:
   internalnet:
     driver: bridge
+
