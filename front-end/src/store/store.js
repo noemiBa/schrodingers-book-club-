@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
       loggedIn: false,
-      inputUsername: ''
+      inputUsername: '',
+      id: -1
     },
     mutations: {
         SET_LOGGED_IN (state, value) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
         },
         SET_USERNAME (state, value) {
           state.inputUsername = value
+        },
+        SET_ID (state, value) {
+          state.id = value
         }
       }
       

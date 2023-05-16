@@ -8,7 +8,9 @@
           <b-form-group id="password-group" label="Password:" label-for="password-input">
             <b-form-input id="password-input" v-model="password" required type="password" placeholder="Enter your password"></b-form-input>
           </b-form-group>
-          <b-button type="submit" variant="primary" :disabled="signInDisabled">Sign In</b-button>
+          <!-- <b-button type="submit" variant="primary" :disabled="signInDisabled">Sign In</b-button> -->
+          <b-button @click="signIn" variant="primary">Sign In</b-button>
+
           <b-button @click="signUp" variant="secondary">Sign Up</b-button>
         </b-form>
         <div v-else>
@@ -57,13 +59,25 @@
   
       const signIn = () => {
         if (validateInput()) {
-          axios.post('http://localhost:3000/users', {
+          axios.post('http://localhost:3000/users/login', {
             name: username.value,
             password: password.value
           })
-            .then(() => {
+            .then((response) => {
+              console.dir(response)
+              if (response.status !== 200) {
+                throw new Error('Non-200 status code received');
+              } else {
+                console.log(response.status)
+                console.log("data")
+                console.dir(response.data)
+                const user = response.data.data.user
+                console.log("user: ")
+                console.dir(user)
                 store.commit('SET_LOGGED_IN', true)
-                store.commit('SET_USERNAME', username.value)
+                store.commit('SET_USERNAME', user.username)
+                store.commit('SET_ID', user.id)
+              }
             })
             .catch(error => {
               console.error(error)
@@ -94,6 +108,7 @@
       const logOut = () => {
         store.commit('SET_LOGGED_IN', false)
         store.commit('SET_USERNAME', '')
+        store.commit('SET_ID', -1)
         username.value = ''
         password.value = ''
       }
