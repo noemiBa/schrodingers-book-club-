@@ -6,6 +6,7 @@ import createResponse from "./domain/response.js";
 import log from "./util/logger.js";
 import httpStatus from "./controller/user.controller.js";
 import userRoutes from "./route/user.route.js";
+import bookRoutes from "./route/book.route.js";
 
 
 dotenv.config();
@@ -15,6 +16,7 @@ const app = express();
 app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
 
 app.get("/", (req, res) => {
   	res.send(createResponse(httpStatus.OK.statusCode, httpStatus.OK.httpStatus, "Hello World", null));
