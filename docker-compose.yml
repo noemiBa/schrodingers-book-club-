@@ -14,7 +14,7 @@ services:
       - mysqldb
       - eureka-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
 
   front-end:
@@ -22,8 +22,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - "QUOTES_SERVICE_URL=http://quotes-service:3001"
-      - "EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
     networks:
       - internalnet
     depends_on:
@@ -87,7 +86,7 @@ services:
       - mysqldb
       - eureka-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
    
   eureka-server:
     image: springcloud/eureka
@@ -95,6 +94,8 @@ services:
       - "8761:8761"
     expose:
       - "8761"
+    environment:
+      EUREKA_CLIENT_FETCH_REGISTRY: true
     networks:
       - internalnet
     restart: always
@@ -102,4 +103,3 @@ services:
 networks:
   internalnet:
     driver: bridge
-
