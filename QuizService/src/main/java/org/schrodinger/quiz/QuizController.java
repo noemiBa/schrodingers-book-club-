@@ -1,25 +1,15 @@
 package org.schrodinger.quiz;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-
 @RestController
 public class QuizController {
-
-    @Autowired
-    private BookRepository bookRepository;
-
+    private JSONArray books;
     @GetMapping("/quizQuestions")
     public ResponseEntity<String> createQuizQuestions() {
         JSONArray quizQuestions = new JSONArray();
@@ -75,54 +65,73 @@ public class QuizController {
 //        return ResponseEntity.ok(result.toString());
     }
 
-
     @PostMapping("/quizAnswers")
-    public ResponseEntity<String> processQuiz(@RequestBody QuizRequest quizRequest) {
+    public ResponseEntity<String> postQuizMapping(@RequestBody QuizRequest quizRequest) {
         int[] answers = quizRequest.getAnswers();
-        List<Book> filteredBookList = calculateQuizScore(answers);
-        String bookListHTMLtable = "no books found in list";
-        if(filteredBookList.isEmpty())
-            return ResponseEntity.badRequest().body(bookListHTMLtable);
-        else
-            bookListHTMLtable = generateQuizResult(filteredBookList);
-        return ResponseEntity.ok(bookListHTMLtable);
+        JSONArray recommendedBooks = processQuiz(answers);
+
+        if(recommendedBooks == null){
+            JSONArray errorResponse = BookController.getEmptyResponse();
+            return ResponseEntity.ok(errorResponse.toString());
+        } else {
+            return ResponseEntity.ok(recommendedBooks.toString());
+        }
     }
 
-    private List<Book> calculateQuizScore(int[] answers) {
-        List<Book> books = bookRepository.findAll();
+
+    private JSONArray processQuiz(int[] answers){
+        books = BookController.getBooksJSONArray();
+        if(books == null) return null;
+        return calculateQuizScore(answers);
+    }
+
+    private JSONArray calculateQuizScore(int[] answers) {
         Map<Integer, String> genreMap = getGenreMap();
         String[] genres = IntStream.range(0, 4)
                 .mapToObj(i -> genreMap.get(answers[i]+(i*4)))
                 .toArray(String[]::new);
 
-        // Filter the list of books based on genre and tag
-        return books.stream()
-                .filter(book -> book.getGenre().equals(genres[0]) || book.getGenre().equals(genres[1])
-                        || book.getGenre().equals(genres[2]) || book.getGenre().equals(genres[3])
-                        || Arrays.asList(book.getTags()).contains(genres[0])
-                        || Arrays.asList(book.getTags()).contains(genres[1])
-                        || Arrays.asList(book.getTags()).contains(genres[2])
-                        || Arrays.asList(book.getTags()).contains(genres[3]))
-                .collect(Collectors.toList());
+        JSONArray filteredBooks = new JSONArray();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject book = books.getJSONObject(i);
+            String genre = book.getString("genre");
+            String tags = book.getString("tags");
+            // Check if the genre matches
+            for (String desiredGenre : genres) {
+                if (genre.equalsIgnoreCase(desiredGenre)) {
+                    filteredBooks.put(book);
+                    break; // Break out of the inner loop once a match is found
+                }}
+            // Check if the tags contain any genre matches
+            if (tags != null) {
+                String[] bookTags = tags.split(",");
+                for (String tag : bookTags) {
+                    for (String desiredGenre : genres) {
+                        if (tag.trim().equalsIgnoreCase(desiredGenre)) {
+                            filteredBooks.put(book);
+                            break; // Break out of the inner loop once a match is found
+                        }}}}}
+
+        return formatHTTPResponseForBooks(filteredBooks);
     }
 
-        private String generateQuizResult(List<Book> books) {
-        JSONArray rows = new JSONArray();
+    private JSONArray formatHTTPResponseForBooks(JSONArray filteredBooks){
+        JSONArray recommendedBooks = new JSONArray();
 
-        for (Book book : books) {
-            JSONObject row = new JSONObject();
-            row.put("title", book.getName());
-            row.put("author", book.getAuthor());
-            row.put("isbn", book.getIsbn());
-            row.put("description", book.getDescription());
-            row.put("genre", book.getGenre());
-            rows.put(row);
+        for (int i = 0; i < filteredBooks.length(); i++) {
+            JSONObject filteredBook = filteredBooks.getJSONObject(i);
+
+            JSONObject recommendedBook = new JSONObject();
+            recommendedBook.put("author", filteredBook.getString("author"));
+            recommendedBook.put("isbn", filteredBook.getString("ISBN"));
+            recommendedBook.put("genre", filteredBook.getString("genre"));
+            recommendedBook.put("description", filteredBook.getString("excerpt"));
+            recommendedBook.put("title", filteredBook.getString("title"));
+
+            recommendedBooks.put(recommendedBook);
         }
-
-        JSONObject result = new JSONObject();
-        result.put("books", rows);
-
-        return result.toString();
+        return recommendedBooks;
     }
 
     private Map<Integer, String> getGenreMap() {
