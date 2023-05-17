@@ -1,21 +1,51 @@
 package org.schrodinger.quiz;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-@RestController
 public class BookController {
-    @Autowired
-    private BookRepository bookRepository;
+    public static JSONArray getBooksJSONArray() {
+        try {
+            URL url = new URL("http://localhost:3000/books");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
 
-    @GetMapping("/books")
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+            connection.disconnect();
+
+            // Parse the JSON response
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            if (jsonResponse.has("statusCode") && jsonResponse.getInt("statusCode") == 200) {
+                JSONArray booksArray = jsonResponse.getJSONObject("data").getJSONArray("books");
+                return booksArray;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static JSONArray getEmptyResponse(){
+        JSONArray emptyArray = new JSONArray();
+        JSONObject empty = new JSONObject();
+        empty.put("author","empty author");
+        empty.put("isbn","1234567891234");
+        empty.put("genre","none");
+        empty.put("description","none");
+        empty.put("title","blank");
+        emptyArray.put(empty);
+        return emptyArray;
     }
 }
