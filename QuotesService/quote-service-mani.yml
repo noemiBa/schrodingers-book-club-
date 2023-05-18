@@ -1,19 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: quotes-service
+  name: quotes
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: quotes-service
+      app: quotes
   template:
     metadata:
       labels:
-        app: quotes-service
+        app: quotes
     spec:
       containers:
-        - name: quotes-service
+        - name: quotes
           image: computerkoala/schrodingers-book-club:quote-service
           ports:
             - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotes-service
+spec:
+  selector:
+    app: quotes
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001
+  type: LoadBalancer
