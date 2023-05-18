@@ -1,19 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-service
+  name: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-service
+      app: backend
   template:
     metadata:
       labels:
-        app: backend-service
+        app: backend
     spec:
       containers:
-        - name: backend-service
+        - name: backend
           image: computerkoala/schrodingers-book-club:backend-service
           ports:
             - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: LoadBalancer

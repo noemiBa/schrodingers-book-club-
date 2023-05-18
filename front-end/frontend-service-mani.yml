@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-service
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend-service
+      app: frontend
   template:
     metadata:
       labels:
-        app: frontend-service
+        app: frontend
     spec:
       containers:
-        - name: frontend-service
+        - name: frontend
           image: computerkoala/schrodingers-book-club:frontend-service
           ports:
             - containerPort: 8080
@@ -21,10 +21,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: frontend-service
 spec:
   selector:
-    app: frontend-service
+    app: frontend
   ports:
   - protocol: TCP
     port: 8080   # Change the service port to 8080
