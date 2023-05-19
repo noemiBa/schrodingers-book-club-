@@ -67,7 +67,7 @@
     },
     async beforeMount() {
       try {
-        const response = await axios.get(`http://localhost:3000/${this.username}/recommendations`);
+        const response = await axios.get(`http://backend-service:3000/${this.username}/recommendations`);
         this.userRecommendations = response.data;
       } catch (error) {
         console.log(error);

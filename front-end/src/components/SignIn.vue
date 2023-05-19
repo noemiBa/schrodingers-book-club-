@@ -59,7 +59,7 @@
   
       const signIn = () => {
         if (validateInput()) {
-          axios.post('http://localhost:3000/users/login', {
+          axios.post('http://backend-service:3000/users/login', {
             name: username.value,
             password: password.value
           })
@@ -88,7 +88,7 @@
   
       const signUp = () => {
         if (validateInput()) {
-          axios.post('http://localhost:3000/users', {
+          axios.post('http://backend-service:3000/users', {
             name: username.value,
             password: password.value
           })
