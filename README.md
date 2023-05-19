@@ -48,10 +48,13 @@ Recreate the environment for testing:
 - Minikube
 
 Once all the prerequisites have been installed start up minikube with: 
+
     minikube start
+
 In the root folder of the project is an executable file which will launch the necessary pods.
 For windows you can double click the startpods.bat
-For Linux or Mac from the terminal
+For Linux or Mac from the terminal:
+
     chmod +x startpods.sh
     ./startpods.sh
 
@@ -59,13 +62,18 @@ Open a dashboard from a terminal with: minikube dashboard
 Wait until all the pods have gone from yellow to green. This will take several minutes to startup.	
 
 In a terminal: 
+
     minikube kubectl -- port-forward service/frontend-service 8080:8080
 Open a web browser: 
+
     localhost:8080
 
 To view the Eureka registration, in a new terminal:
+
     minikube kubectl -- port-forward service/eureka-server-service 8761:8761
+
 Open a web browser:
+
     localhost:8761
 
 A screenshot of this in action can be found [here](eureka_snapshot.png)
