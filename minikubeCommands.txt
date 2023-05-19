@@ -11,21 +11,21 @@ minikube kubectl -- apply -f <service file>
 minikube kubectl -- port-forward service/<service name> <port>:<port>
 
 // specific service launch
-
+minikube kubectl -- apply -f .\mysqldb-service-mani.yml
+minikube kubectl -- apply -f .\DatabaseServer\backend-service-mani.yml
+minikube kubectl -- apply -f .\eureka-service-mani.yml
+minikube kubectl -- apply -f .\front-end\frontend-service-mani.yml
+minikube kubectl -- apply -f .\QuotesService\quote-service-mani.yml
 minikube kubectl -- apply -f .\QuizService\quiz-service-mani.yml
+
 minikube kubectl -- port-forward service/quiz-service 3002:3002
 
-minikube kubectl -- apply -f .\QuotesService\quote-service-mani.yml
 minikube kubectl -- port-forward service/quotes-service 3001:3001
 
-minikube kubectl -- apply -f .\DatabaseServer\backend-service-mani.yml
 minikube kubectl -- port-forward service/backend-service 3000:3000
 
-minikube kubectl -- apply -f .\eureka-service-mani.yml
 minikube kubectl -- port-forward service/eureka-server-service 8761:8761
 
-minikube kubectl -- apply -f .\mysqldb-service-mani.yml
 minikube kubectl -- port-forward service/mysqldb-service 3306:3306
 
-minikube kubectl -- apply -f .\front-end\frontend-service-mani.yml
 minikube kubectl -- port-forward service/frontend-service 8080:8080

@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class BookController {
     public static JSONArray getBooksJSONArray() {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-            HttpGet request = new HttpGet("http://localhost:3000/books");
+            HttpGet request = new HttpGet("http://backend-service:3000/books");
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
 
