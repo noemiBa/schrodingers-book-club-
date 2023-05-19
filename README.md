@@ -1,20 +1,38 @@
-# Schrodingers Book Club
+# Schrodingers Book Club: Book Recommendation System
 
+This README provides information about Schrodingers Book Club, a scalable and fault-tolerant RESTful book recommendation system. The following sections will provide details about the system's functionality, instructions on how to compile and run the code, as well as links to the report and video showcasing the project.
 
+### Team Name: Schrodingers Book Club
 
 ## Requirements
 - Docker
 
-## Installation
-1. Start the database by running `docker-compose up -d` in the `DatabaseServer` directory.
-2. Install dependencies and start the database server by running the commands `npm install` and `npm run start:dev` in the `DatabaseServe` directory.
-3. Install dependencies and start the quotes service by running the commands `npm install` and `npm run start:dev` in the `DatabaseServe` directory.
-4. Navigate to the `front-end` directory and run the command `npm run serve` to start the frontend server.
-5. You can find prewritten Bootstrap Vue components [here](https://bootstrap-vue.org/docs/components).
+### System Summary:
+Schrodingers Book Club is a distributed application that helps users discover new books based on their preferences. The system uses a micro-services architecture, with the following components:
 
-## Microservices 
-- [x] User SignIn/SignUp
-- [ ] Quiz based recommendation
-- [ ] Quotes based recommendation
-- [ ] Basic recommendation based on book selection
+- **QuizService**: An interactive quiz service that asks users a series of multiple-choice questions to determine their reading preferences. Based on their responses, the service generates book recommendations tailored to their tastes. This is done by mapping book tags to the user responses.
 
+- **QuotesService**: An alternative method of recommending books, where users can read short quote excerpts from books without knowing their titles. The service provides book recommendations whenever the users press an 'unveil the mystery' button to find out where the quote is from.
+
+- **DatabaseServer**: A server that connects to a separate database and retrieves the necessary data - information about books, users, and their recommendations - for the other services.
+
+- **FrontEnd**: The front-end service responsible for handling user requests and displaying the recommendations. It integrates data from the QuizService and QuotesService and presents it in a user-friendly format.
+
+The system supports user account creation and storage of past recommendations. When users are logged in, their recommendations are stored in the DatabaseServer and can be retrieved for display.
+
+### Compilation and Execution Instructions:
+[Add instructions on how to compile and run your code here.]
+
+### Report:
+For a detailed description of the project, please refer to the [Report](SchrodingersBookClub_report.pdf) uploaded in the root folder of the project.
+
+### Video Showcase:
+To see a video showcasing the Book Recommendation System, please follow this [link](video_link).
+
+### Pre-Registered Users:
+For testing purposes, a number of users have already been added to the database. You can sign in as one of the following users without having to create a new account:
+- Username: FrodoBaggins, Password: OneRingToRuleThemAll
+- Username: HermioneGranger, Password: WingardiumLeviosa
+- Username: SherlockHolmes, Password: ElementaryMyDearWatson
+- Username: KatnissEverdeen, Password: Mockingjay
+- Username: test, Password: test
