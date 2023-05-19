@@ -53,6 +53,9 @@ export default {
     username() {
         return store.state.inputUsername
     },
+    id() {
+      return store.state.id
+    },
     isReady() {
       return this.books.length > 0;
     }
@@ -70,15 +73,21 @@ export default {
     showMoreBooks() {
       this.displayedBooks.push(...this.books.slice(this.displayedBooks.length, this.displayedBooks.length + this.chunkSize));
     },
-    sendRecommendation(isbn) {
-        try {
-            const response = axios.post(`http://backend-service:3000/${this.username}/recommendations`, { isbn });
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
+    async sendRecommendation(isbn) {
+      try {
+          const userRecommendation = {
+              userID: this.id,
+              ISBN: isbn
+          };
+
+          const response = await axios.post('http://backend-service:3000/recommendations', userRecommendation);
+          console.log(response);
+      } catch (error) {
+          console.log(error);
+      }
     },
     async unveilMystery(book) {
+        console.log(this.isLoggedIn)
         if (this.isLoggedIn) {
             await this.sendRecommendation(book.isbn);
         }

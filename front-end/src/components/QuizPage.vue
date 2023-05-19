@@ -68,7 +68,10 @@ export default {
       },
       username() {
         return store.state.inputUsername
-      }
+      },
+      id() {
+        return store.state.id
+      },
     },
     watch: {
       recommendedBooks(newBooks) {
@@ -96,11 +99,16 @@ export default {
         }
       },
       async sendRecommendations() {
-        const url = `http://backend-service:3000/${this.username}/recommendations`;
-        const isbns = this.recommendedBooks.map(book => book.isbn);
+        const url = 'http://backend-service:3000/recommendations';
         try {
-            await axios.post(url, { isbns });
-        } catch (error) {
+            for (const book of this.recommendedBooks) {
+                const data = {
+                  userID: this.id,
+                  ISBN: book.isbn
+                };
+                await axios.post(url, data);
+              }
+          } catch (error) {
             console.error(error);
         }
       },
