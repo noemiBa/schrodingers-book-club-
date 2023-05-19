@@ -83,7 +83,7 @@ export default {
     methods: {
       async getQuizQuestions() {
         try {
-          const response = await axios.get('http://quiz-service:3002/quizQuestions');
+          const response = await axios.get('http://localhost:3002/quizQuestions');
           this.quizQuestions = response.data;
         } catch (error) {
           console.error(error);
@@ -91,7 +91,7 @@ export default {
       },
       async submitAnswers() {
         try {
-          const response = await axios.post('http://quiz-service:3002/quizAnswers', { answers: this.answers });
+          const response = await axios.post('http://localhost:3002/quizAnswers', { answers: this.answers });
           this.recommendedBooks = response.data;
           this.answerSubmitted = true;
         } catch (error) {
@@ -99,7 +99,7 @@ export default {
         }
       },
       async sendRecommendations() {
-        const url = 'http://backend-service:3000/recommendations';
+        const url = 'http://localhost:3000/recommendations';
         try {
             for (const book of this.recommendedBooks) {
                 const data = {
