@@ -83,10 +83,7 @@ services:
       - internalnet
     restart: always
     depends_on:
-<<<<<<< Updated upstream
-=======
       - backend-service
->>>>>>> Stashed changes
       - eureka-server
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
