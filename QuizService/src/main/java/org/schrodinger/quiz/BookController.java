@@ -1,34 +1,30 @@
 package org.schrodinger.quiz;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BookController {
     public static JSONArray getBooksJSONArray() {
-        try {
-            URL url = new URL("http://localhost:3000/books");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            reader.close();
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+            HttpGet request = new HttpGet("http://backend-service:3000/books");
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
 
-            connection.disconnect();
+            if (entity != null) {
+                String responseBody = EntityUtils.toString(entity);
+                JSONObject jsonResponse = new JSONObject(responseBody);
 
-            // Parse the JSON response
-            JSONObject jsonResponse = new JSONObject(response.toString());
-            if (jsonResponse.has("statusCode") && jsonResponse.getInt("statusCode") == 200) {
-                JSONArray booksArray = jsonResponse.getJSONObject("data").getJSONArray("books");
-                return booksArray;
+                if (jsonResponse.has("statusCode") && jsonResponse.getInt("statusCode") == 200) {
+                    JSONArray booksArray = jsonResponse.getJSONObject("data").getJSONArray("books");
+                    return booksArray;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
