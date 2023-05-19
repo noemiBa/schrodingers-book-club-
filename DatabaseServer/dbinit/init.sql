@@ -23,6 +23,13 @@ CREATE TABLE books (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE recommendations (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  userID INT NOT NULL,
+  ISBN VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
 INSERT INTO books (ISBN, title, author, excerpt, cover)
 VALUES ('9780156012195', 'The Little Prince', 'Antoine de Saint-Exupéry', 'And now here is my secret, a very simple secret: It is only with the heart that one can see rightly; what is essential is invisible to the eye.', 'https://covers.openlibrary.org/b/id/7268667-L.jpg');
 
