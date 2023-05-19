@@ -11,7 +11,7 @@
       <b-container v-if="isLoggedIn && !hasReccomendations">
         <h4>You don't have any recommendations yet.</h4>
       </b-container>
-      <b-container v-else>
+      <b-container v-if="!isLoggedIn">
         <h4>You need to log in to see this page.</h4>
       </b-container>
     </PageWrapper>
@@ -36,22 +36,6 @@
     data() {
       return {
         userRecommendations: [],
-        // userRecommendations: [
-        //    {
-        //         author: "Dan Brown",
-        //         isbn: "9780307474278",
-        //         genre: "Mystery",
-        //         description: "While in Paris on business.",
-        //         title: "The Da Vinci Code"
-        //     },
-        //     {
-        //         author: "Shel Silverstein",
-        //         isbn: "9780060256654",
-        //         genre: "Childrens Literature",
-        //         description: "A heart-warming story,",
-        //         title: "The Giving Tree"
-        //     }
-        // ]
       };
     },
     computed: {
@@ -61,16 +45,26 @@
       username() {
         return store.state.inputUsername;
       },
+      id() {
+        return store.state.id;
+      },
       hasReccomendations() {
         return this.userRecommendations.length > 0; 
       }
     },
-    async beforeMount() {
-      try {
-        const response = await axios.get(`http://backend-service:3000/${this.username}/recommendations`);
-        this.userRecommendations = response.data;
-      } catch (error) {
-        console.log(error);
+    async created() {
+      if (this.isLoggedIn) {
+          await this.fetchRecommendations();
+      }
+    },
+    methods: {
+      async fetchRecommendations() {
+        try {
+          const response = await axios.get(`http://backend-service:3000/recommendations/${this.id}`);
+          this.userRecommendations = response.data.data.userRecommendations;
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
