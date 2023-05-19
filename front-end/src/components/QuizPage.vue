@@ -60,81 +60,6 @@ export default {
         quizQuestions: [],
         recommendedBooks: [],
         answerSubmitted: false,
-        // quizQuestions: [
-        //   {
-        //     title: 'Which of the four do you prefer?',
-        //     options: [
-        //       'Obvious hero and villain.',
-        //       'Smart hero and villain.',
-        //       'Ensemble heroes and villains.',
-        //       'No heroes, only villains.',
-        //     ],
-        //   },
-        //   {
-        //     title: 'What type of endings do you prefer?',
-        //     options: [
-        //       'Happy endings.',
-        //       'Sappy endings.',
-        //       'Cliffhangers.',
-        //       'No ending, just cut to the credits.',
-        //     ],
-        //   },
-        //   {
-        //     title: "For wherever you happen to live in the world, which best describes your area?",
-        //     options: [
-        //       "I'm from the north.",
-        //       "I'm from the east.",
-        //       "I'm from the west.",
-        //       "I'm from the south.",
-        //     ],
-        //   },
-        //   {
-        //     title: "What's your favourite category?",
-        //     options: [
-        //       'Drama',
-        //       'Not Drama',
-        //       'Dramedy',
-        //       'Fantasy',
-        //     ],
-        //   },
-        // ],
-        // recommendedBooks: [
-        //    {
-        //         author: "Dan Brown",
-        //         isbn: "9780307474278",
-        //         genre: "Mystery",
-        //         description: "While in Paris on business.",
-        //         title: "The Da Vinci Code"
-        //     },
-        //     {
-        //         author: "Shel Silverstein",
-        //         isbn: "9780060256654",
-        //         genre: "Childrens Literature",
-        //         description: "A heart-warming story,",
-        //         title: "The Giving Tree"
-        //     },
-        //     {
-        //         author: "Dan Brown",
-        //         isbn: "9780307474278",
-        //         genre: "Mystery",
-        //         description: "While in Paris on business.",
-        //         title: "The Da Vinci Code"
-        //     },
-        //     {
-        //         author: "Dan Brown",
-        //         isbn: "9780307474278",
-        //         genre: "Mystery",
-        //         description: "While in Paris on business.",
-        //         title: "The Da Vinci Code"
-        //     },
-        //     {
-        //         author: "Shel Silverstein",
-        //         isbn: "9780060256654",
-        //         genre: "Childrens Literature",
-        //         description: "A heart-warming story,",
-        //         title: "The Giving Tree"
-        //     }
-        // ]
       };
     },
     computed: {
@@ -155,7 +80,7 @@ export default {
     methods: {
       async getQuizQuestions() {
         try {
-          const response = await axios.get('http://localhost:3002/quizQuestions');
+          const response = await axios.get('http://quiz-service:3002/quizQuestions');
           this.quizQuestions = response.data;
         } catch (error) {
           console.error(error);
@@ -163,7 +88,7 @@ export default {
       },
       async submitAnswers() {
         try {
-          const response = await axios.post('http://localhost:3002/quizAnswers', { answers: this.answers });
+          const response = await axios.post('http://quiz-service:3002/quizAnswers', { answers: this.answers });
           this.recommendedBooks = response.data;
           this.answerSubmitted = true;
         } catch (error) {
@@ -171,7 +96,7 @@ export default {
         }
       },
       async sendRecommendations() {
-        const url = `http://localhost:3000/${this.username}/recommendations`;
+        const url = `http://backend-service:3000/${this.username}/recommendations`;
         const isbns = this.recommendedBooks.map(book => book.isbn);
         try {
             await axios.post(url, { isbns });

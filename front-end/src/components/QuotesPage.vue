@@ -59,8 +59,7 @@ export default {
   },
   async beforeMount() {
     try {
-      const response = await axios.get('http://localhost:3001/bookswithquotes');
-      //const response = await axios.get('http://quotes-service:3001/bookswithquotes');
+      const response = await axios.get('http://quotes-service:3001/bookswithquotes');
       this.books = response.data.map(book => ({ ...book, showCover: false }));
       this.showMoreBooks();
     } catch (error) {
@@ -73,7 +72,7 @@ export default {
     },
     sendRecommendation(isbn) {
         try {
-            const response = axios.post(`http://localhost:3000/${this.username}/recommendations`, { isbn });
+            const response = axios.post(`http://backend-service:3000/${this.username}/recommendations`, { isbn });
             console.log(response);
         } catch (error) {
             console.log(error);
