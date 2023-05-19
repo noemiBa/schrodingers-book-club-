@@ -21,13 +21,18 @@ Schrodingers Book Club is a distributed application that helps users discover ne
 The system supports user account creation and storage of past recommendations. When users are logged in, their recommendations are stored in the DatabaseServer and can be retrieved for display.
 
 ### Compilation and Execution Instructions:
-[Add instructions on how to compile and run your code here.]
+To run the local version of the code, please follow the steps below:
 
-### Report:
-For a detailed description of the project, please refer to the [Report](SchrodingersBookClub_report.pdf) uploaded in the root folder of the project.
+1. Check out to the `localhost` branch using the following Git command:
+```bash
+git checkout localhost
+```
+2. Run the following command to start the application using Docker Compose:
+```bash
+docker-compose up -d
+```
 
-### Video Showcase:
-To see a video showcasing the Book Recommendation System, please follow this [link](video_link).
+This command will build and start all the necessary services defined in the Docker Compose file.
 
 ### Pre-Registered Users:
 For testing purposes, a number of users have already been added to the database. You can sign in as one of the following users without having to create a new account:
@@ -36,6 +41,14 @@ For testing purposes, a number of users have already been added to the database.
 - Username: SherlockHolmes, Password: ElementaryMyDearWatson
 - Username: KatnissEverdeen, Password: Mockingjay
 - Username: test, Password: test
+
+### Report:
+For a detailed description of the project, please refer to the [Report](SchrodingersBookClub_report.pdf) uploaded in the root folder of the project.
+
+### Video Showcase:
+To see a video showcasing the Book Recommendation System, please follow this [link](video_link).
+
+**Important Note**: Please be aware that when running the Minikube + Eureka scalable version as outlined in the steps below, we encountered some CORS (Cross-Origin Resource Sharing) issues that we were unable to resolve. As a result, the video showcasing the project features the local version running on `localhost`. Please refer to the video for a demonstration of the system's functionality.
 
 ### Kubernetes and Eureka Configuration
 Do to CORS errors, we were unable to connect pods. Please follow the instructions to startup the Kubernetes and Eureka Configuration.
