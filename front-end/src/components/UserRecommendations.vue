@@ -60,7 +60,7 @@
     methods: {
       async fetchRecommendations() {
         try {
-          const response = await axios.get(`http://backend-service:3000/recommendations/${this.id}`);
+          const response = await axios.get(`http://localhost:3000/recommendations/${this.id}`);
           this.userRecommendations = response.data.data.userRecommendations;
         } catch (error) {
           console.log(error);

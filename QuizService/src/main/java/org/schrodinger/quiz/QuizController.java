@@ -124,7 +124,7 @@ public class QuizController {
 
             JSONObject recommendedBook = new JSONObject();
             recommendedBook.put("author", filteredBook.getString("author"));
-            recommendedBook.put("isbn", filteredBook.getString("ISBN"));
+            recommendedBook.put("isbn", filteredBook.getString("isbn"));
             recommendedBook.put("genre", filteredBook.getString("genre"));
             recommendedBook.put("description", filteredBook.getString("excerpt"));
             recommendedBook.put("title", filteredBook.getString("title"));

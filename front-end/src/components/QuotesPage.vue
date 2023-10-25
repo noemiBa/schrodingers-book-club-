@@ -62,7 +62,7 @@ export default {
   },
   async beforeMount() {
     try {
-      const response = await axios.get('http://quotes-service:3001/bookswithquotes');
+      const response = await axios.get('http://localhost:3001/bookswithquotes');
       this.books = response.data.map(book => ({ ...book, showCover: false }));
       this.showMoreBooks();
     } catch (error) {
